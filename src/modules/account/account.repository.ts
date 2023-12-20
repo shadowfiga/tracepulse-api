@@ -1,6 +1,7 @@
 import { Account } from '@prisma/client';
 import { PrismaService } from '@modules/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
+
 @Injectable()
 export class AccountRepository {
   constructor(private prisma: PrismaService) {}

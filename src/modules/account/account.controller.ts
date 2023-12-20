@@ -1,14 +1,5 @@
 // account.controller.ts
-import {
-  Post,
-  Controller,
-  Body,
-  UsePipes,
-  UseGuards,
-  Req,
-  Res,
-  Get,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res, UseGuards, UsePipes } from '@nestjs/common';
 import { AccountService } from '@account/account.service';
 import { LoginInput } from '@account/dto/login.input';
 import { JwtAuthGuard } from '@account/auth/guard/jwt-auth.guard';

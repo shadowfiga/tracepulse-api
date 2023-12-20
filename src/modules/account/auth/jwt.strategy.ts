@@ -5,6 +5,7 @@ import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { AccountRepository } from '@account/account.repository';
 import { storage } from '@util/constants';
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
