@@ -1,10 +1,10 @@
 -- CreateTable
 CREATE TABLE "Account" (
-    "account_id" TEXT NOT NULL,
+    "accountId" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "hashedPassword" TEXT NOT NULL,
 
-    CONSTRAINT "Account_pkey" PRIMARY KEY ("account_id")
+    CONSTRAINT "Account_pkey" PRIMARY KEY ("accountId")
 );
 
 -- CreateIndex

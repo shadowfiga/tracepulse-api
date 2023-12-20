@@ -1,7 +1,7 @@
 // account.service.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
-import { AccountService } from '../account.service';
-import { AccountRepository } from '../account.repository';
+import { AccountService } from '@account/account.service';
+import { AccountRepository } from '@account/account.repository';
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Account } from '@prisma/client';
 
@@ -29,7 +29,7 @@ describe('AccountService', () => {
   describe('login', () => {
     it('should return the account on successful login', async () => {
       const mockAccount: Account = {
-        account_id: 'aaeaeaeae',
+        accountId: 'aaeaeaeae',
         email: 'tesstuser',
         hashedPassword: 'testpassword',
       };
@@ -50,7 +50,7 @@ describe('AccountService', () => {
 
     it('should throw UnauthorizedException if password is invalid', async () => {
       const mockAccount: Account = {
-        account_id: 'test',
+        accountId: 'test',
         email: 'testuser',
         hashedPassword: 'testpassword',
       };

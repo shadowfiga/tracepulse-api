@@ -8,12 +8,18 @@ export class AccountRepository {
     return this.prisma.account.findUniqueOrThrow({ where: { email } });
   }
 
+  async findById(userId: string): Promise<Account | null> {
+    return this.prisma.account.findUniqueOrThrow({
+      where: { accountId: userId },
+    });
+  }
+
   async updatePassword(
     accountId: string,
     newPassword: string,
   ): Promise<Account | null> {
     const existingAccount = await this.prisma.account.update({
-      where: { account_id: accountId },
+      where: { accountId: accountId },
       data: { hashedPassword: newPassword },
     });
 

@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Account {
-  account_id        String         @id @default(uuid())
+  accountId        String         @id @default(uuid())
   email  String      @unique
   hashedPassword  String
 }

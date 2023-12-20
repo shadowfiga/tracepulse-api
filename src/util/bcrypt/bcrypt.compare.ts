@@ -5,13 +5,8 @@ export const comparePasswords = async (
   plainPassword: string,
   hashedPassword: string,
 ): Promise<void> => {
-  await bcrypt.compare(plainPassword, hashedPassword).then(function (
-    isValid: boolean,
-  ) {
-    if (!isValid) {
-      throw new UnauthorizedException('Invalid credentials.');
-    } else {
-      return isValid;
-    }
-  });
+  const compare = await bcrypt.compare(plainPassword, hashedPassword);
+  if (!compare) {
+    throw new UnauthorizedException('Unauthorized');
+  }
 };

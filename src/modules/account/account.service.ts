@@ -14,17 +14,16 @@ export class AccountService {
   async login(email: string, password: string) {
     const account = await this.accountRepository.findByEmail(email);
     await comparePasswords(password, account.hashedPassword);
-
-    const payload = { sub: account.account_id, email: account.email };
+    const payload = { sub: account.accountId };
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      accessToken: await this.jwtService.signAsync(payload),
     };
   }
 
   async updatePassword(
-    account_id: string,
+    accountId: string,
     newPassword: string,
   ): Promise<Account | null> {
-    return await this.accountRepository.updatePassword(account_id, newPassword);
+    return await this.accountRepository.updatePassword(accountId, newPassword);
   }
 }

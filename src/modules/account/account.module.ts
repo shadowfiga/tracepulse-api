@@ -4,9 +4,8 @@ import { AccountService } from '@account/account.service';
 import { AccountController } from '@account/account.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from '@account/auth/local.strategy';
-import configuration from 'config/configuration';
 import { JwtStrategy } from '@account/auth/jwt.strategy';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   controllers: [AccountController],
@@ -17,17 +16,20 @@ import { JwtStrategy } from '@account/auth/jwt.strategy';
     },
     AccountService,
     AccountRepository,
-    LocalStrategy,
     JwtStrategy,
   ],
   imports: [
     PassportModule,
-    JwtModule.register({
-      signOptions: {
-        expiresIn: 3600,
+    JwtModule.registerAsync({
+      useFactory: (config: ConfigService) => {
+        return {
+          secret: config.get<string>('JWT_SECRET'),
+          signOptions: {
+            expiresIn: config.get<string | number>('JWT_EXP_TIME'),
+          },
+        };
       },
-      secret: configuration().jwtSecret,
-      global: true,
+      inject: [ConfigService],
     }),
   ],
 })

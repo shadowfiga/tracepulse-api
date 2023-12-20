@@ -12,16 +12,14 @@ import {
 import { AccountService } from '@account/account.service';
 import { LoginInput } from '@account/dto/login.input';
 import { JwtAuthGuard } from '@account/auth/guard/jwt-auth.guard';
-import { LocalAuthGuard } from '@account/auth/guard/local-auth.guard';
 import { UpdatePasswordInput } from '@account/dto/update-password.input';
 import { Request } from 'express';
-import { dateNow } from '@util/date/date.specific-dates';
+import { storage } from '@util/constants';
 
 @Controller('account')
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('/login')
   @UsePipes()
   async login(
@@ -32,7 +30,8 @@ export class AccountController {
       loginInput.email,
       loginInput.password,
     );
-    response.cookie('access_token', jwtPayload.access_token);
+
+    response.cookie(storage.jwtTokenName, jwtPayload.accessToken);
 
     return this.accountService.login(loginInput.email, loginInput.password);
   }
@@ -43,13 +42,12 @@ export class AccountController {
     @Req() request: Request,
     @Body() updatePasswordInput: UpdatePasswordInput,
   ) {
-    console.log(request.cookies);
     return this.accountService.updatePassword('', updatePasswordInput.password);
   }
-
+  @UseGuards(JwtAuthGuard)
   @Get('logout')
   async logout(@Res({ passthrough: true }) response) {
-    response.cookie('access_token', { expires: dateNow });
+    response.cookie(storage.jwtTokenName, { expires: new Date() });
     response.redirect('/login');
   }
 }
