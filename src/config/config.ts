@@ -8,6 +8,6 @@ export default registerAs('tracepulseConfig', (): configInterface => {
     SERVER_PORT: parseInt(process.env.SERVER_PORT),
     DATABASE_URL: process.env.DATABASE_URL,
     JWT_SECRET: process.env.JWT_SECRET,
-    JWT_EXP_TIME: parseInt(process.env.JWT_EXP_TIME)
+    JWT_EXP_TIME: process.env.JWT_EXP_TIME,
   };
 });

@@ -2,6 +2,7 @@ import { ArgumentsHost, Catch, HttpStatus } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
 import { Response } from 'express';
+import { DatabaseExceptionsEnum } from '@util/constants';
 
 @Catch(Prisma.PrismaClientKnownRequestError)
 export class PrismaClientExceptionFilter extends BaseExceptionFilter {
@@ -9,7 +10,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
-    if (exception.code == 'P2025') {
+    if (exception.code == DatabaseExceptionsEnum.notFound) {
       const status = HttpStatus.NOT_FOUND;
       response.status(status).json({
         statusCode: 401,

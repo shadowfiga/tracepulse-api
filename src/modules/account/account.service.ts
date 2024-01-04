@@ -3,6 +3,7 @@ import { AccountRepository } from '@account/account.repository';
 import { Account } from '@prisma/client';
 import { comparePasswords } from '@util/bcrypt/bcrypt.compare';
 import { JwtService } from '@nestjs/jwt';
+import { hashPassword } from '@util/bcrypt/bcrypt.hash';
 
 @Injectable()
 export class AccountService {
@@ -24,6 +25,9 @@ export class AccountService {
     accountId: string,
     newPassword: string,
   ): Promise<Account | null> {
-    return await this.accountRepository.updatePassword(accountId, newPassword);
+    return await this.accountRepository.updatePassword(
+      accountId,
+      await hashPassword(newPassword),
+    );
   }
 }
